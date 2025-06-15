@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>게시글 상세보기 - 원주여자고등학교</title>
   <style>
     body {
@@ -31,6 +31,18 @@
     .content {
       font-size: 16px;
       white-space: pre-line;
+      margin-bottom: 15px;
+    }
+    .file-link {
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    .file-link a {
+      color: #1a73e8;
+      text-decoration: none;
+    }
+    .file-link a:hover {
+      text-decoration: underline;
     }
     .back-btn {
       display: inline-block;
@@ -52,6 +64,7 @@
     <div class="title" id="post-title">제목 불러오는 중...</div>
     <div class="meta" id="post-meta">작성자 | 학년 | 작성일</div>
     <div class="content" id="post-content">내용 불러오는 중...</div>
+    <div class="file-link" id="post-file"></div>
     <a href="posts.html" class="back-btn">← 게시글 목록으로</a>
   </div>
 
@@ -74,22 +87,39 @@
     const params = new URLSearchParams(location.search);
     const postId = params.get("id");
 
+    const titleElem = document.getElementById("post-title");
+    const metaElem = document.getElementById("post-meta");
+    const contentElem = document.getElementById("post-content");
+    const fileElem = document.getElementById("post-file");
+
     if (!postId) {
-      document.getElementById("post-title").textContent = "글 ID가 없습니다.";
-      document.getElementById("post-content").textContent = "";
+      titleElem.textContent = "글 ID가 없습니다.";
+      contentElem.textContent = "";
     } else {
       const postRef = doc(db, "posts", postId);
       const postSnap = await getDoc(postRef);
 
       if (postSnap.exists()) {
         const data = postSnap.data();
-        document.getElementById("post-title").textContent = data.title || "제목 없음";
+        titleElem.textContent = data.title || "제목 없음";
         const date = data.createdAt?.toDate().toLocaleDateString("ko-KR") || "날짜 없음";
-        document.getElementById("post-meta").textContent = `${data.nickname || "익명"} ｜ ${data.grade || "학년 없음"}학년 ｜ ${date}`;
-        document.getElementById("post-content").textContent = data.content || "";
+        metaElem.textContent = `${data.nickname || "익명"} ｜ ${data.grade || "학년 없음"} ｜ ${date}`;
+
+        // 🔗 링크 자동 하이퍼링크 변환 처리
+        const rawContent = data.content || "";
+        const linkedContent = rawContent.replace(
+          /(https?:\/\/[^\s]+)/g,
+          '<a href="$1" target="_blank" style="color:#1a73e8;">$1</a>'
+        );
+        contentElem.innerHTML = linkedContent;
+
+        // 📎 첨부파일 링크 표시 (링크 방식에서 불필요할 수도 있지만 남겨둠)
+        if (data.fileUrl && data.fileName) {
+          fileElem.innerHTML = `📎 첨부파일: <a href="${data.fileUrl}" target="_blank">${data.fileName}</a>`;
+        }
       } else {
-        document.getElementById("post-title").textContent = "해당 게시글을 찾을 수 없습니다.";
-        document.getElementById("post-content").textContent = "";
+        titleElem.textContent = "해당 게시글을 찾을 수 없습니다.";
+        contentElem.textContent = "";
       }
     }
   </script>
