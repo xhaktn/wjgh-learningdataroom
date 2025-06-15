@@ -105,7 +105,6 @@
         const date = data.createdAt?.toDate().toLocaleDateString("ko-KR") || "날짜 없음";
         metaElem.textContent = `${data.nickname || "익명"} ｜ ${data.grade || "학년 없음"} ｜ ${date}`;
 
-        // 🔗 링크 자동 하이퍼링크 변환 처리
         const rawContent = data.content || "";
         const linkedContent = rawContent.replace(
           /(https?:\/\/[^\s]+)/g,
@@ -113,7 +112,7 @@
         );
         contentElem.innerHTML = linkedContent;
 
-        // 📎 첨부파일 링크 표시 (링크 방식에서 불필요할 수도 있지만 남겨둠)
+       
         if (data.fileUrl && data.fileName) {
           fileElem.innerHTML = `📎 첨부파일: <a href="${data.fileUrl}" target="_blank">${data.fileName}</a>`;
         }
