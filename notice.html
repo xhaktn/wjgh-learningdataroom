@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1024">
+  <title>공지사항 - 원주여자고등학교</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #fff7f9;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      font-size: 14px;
+      font-weight: bold;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .nav {
+      display: flex;
+      gap: 40px;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: black;
+    }
+
+    .nav a:hover {
+      font-weight: bold;
+    }
+
+    .notice-title {
+      background-color: #ffe5eb;
+      padding: 30px;
+      font-size: 32px;
+      color: #de9aa8;
+      font-weight: bold;
+    }
+
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px;
+      gap: 10px;
+    }
+
+    .search-bar input[type="text"] {
+      padding: 10px;
+      width: 280px;
+      border-radius: 10px;
+      border: 1px solid #aaa;
+      outline: none;
+    }
+
+    .search-bar select {
+      padding: 8px;
+      border-radius: 10px;
+      border: 1px solid #aaa;
+    }
+
+    .search-bar button {
+      padding: 8px 16px;
+      border-radius: 10px;
+      border: none;
+      background-color: #f8c4d4;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .table-container {
+      margin: 20px auto;
+      width: 90%;
+      border-top: 2px solid black;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+    }
+
+    tr {
+      border-bottom: 1px solid #ccc;
+    }
+
+    .title-left {
+      text-align: left;
+      padding-left: 20px;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div>원주여자고등학교</div>
+    <div class="nav">
+      <a href="#">로그인</a>
+      <a href="#">게시판</a>
+      <a href="#">공지사항</a>
+      <a href="#">문의하기</a>
+    </div>
+  </div>
+
+  <div class="notice-title">공지사항</div>
+
+  <div class="search-bar">
+    <input type="text" placeholder="검색어를 입력하세요">
+    <select>
+      <option>년도</option>
+    </select>
+    <select>
+      <option>월</option>
+    </select>
+    <select>
+      <option>일</option>
+    </select>
+    <button>적용</button>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <tr class="bold">
+        <td>번호</td>
+        <td>제목</td>
+        <td>작성자</td>
+        <td>날짜</td>
+      </tr>
+      <tr>
+        <td>001</td>
+        <td class="title-left bold">2025년도 1학년 모의 평가 실시 안내</td>
+        <td>전은주</td>
+        <td>2025.05.25</td>
+      </tr>
+    </table>
+  </div>
+
+</body>
+</html>
