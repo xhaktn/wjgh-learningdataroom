@@ -68,37 +68,12 @@
     .main {
       padding: 30px;
     }
-    .search-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      gap: 10px;
-    }
+    
     .post_text {
       font-size: 24px;
       font-weight: bold;
     }
-    .search-group {
-      display: flex;
-      flex: 1;
-      justify-content: flex-end;
-      max-width: 400px;
-    }
-    .search-input {
-      padding: 8px;
-      border: none;
-      background-color: #ffffff;
-      border-radius: 5px 0 0 5px;
-      flex: 1;
-    }
-    .search-button {
-      background-color: #ffffff;
-      border: none;
-      border-radius: 0 5px 5px 0;
-      padding: 8px;
-      cursor: pointer;
-    }
+    
     .square {
       background-color: #FFDDE3;
       padding: 20px;
@@ -111,6 +86,10 @@
     }
     .post a {
       text-decoration: none;
+      color: inherit;
+    }
+
+    .post a:visited {
       color: inherit;
     }
     .post {
@@ -189,10 +168,7 @@
           <button class="ch" data-filter="2학년">2학년</button>
           <button class="ch" data-filter="3학년">3학년</button>
         </div>
-        <div class="search-group">
-          <input type="text" class="search-input" placeholder="검색할 내용 입력">
-          <button class="search-button">🔍</button>
-        </div>
+        
       </div>
       <div class="post-list">
         <!-- 게시글 출력 -->
@@ -202,7 +178,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCrxJuOjHGdttC2gfwfjqsvAjHicEav6BA",
@@ -217,6 +193,7 @@
     const db = getFirestore(app);
 
     const postList = document.querySelector(".post-list");
+    const user = JSON.parse(localStorage.getItem("user"));
     let allPosts = [];
 
     async function fetchPosts() {
@@ -224,10 +201,10 @@
       const querySnapshot = await getDocs(q);
       allPosts = [];
 
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
+      querySnapshot.forEach((docSnap) => {
+        const data = docSnap.data();
         allPosts.push({
-          id: doc.id,
+          id: docSnap.id,
           title: data.title || "제목 없음",
           nickname: data.nickname || "익명",
           grade: data.grade || "학년 미입력",
@@ -251,12 +228,23 @@
             </div>
             <div class="post-info">${post.date}</div>
           </a>
+          ${user && user.role === "admin" ? `<span class="delete-btn" data-id="${post.id}">🗑</span>` : ""}
         `;
         postList.appendChild(div);
       });
     }
 
-    // 학년 필터
+    document.addEventListener("click", async (e) => {
+      if (e.target.classList.contains("delete-btn")) {
+        const id = e.target.getAttribute("data-id");
+        if (confirm("정말 삭제하시겠습니까?")) {
+          await deleteDoc(doc(db, "posts", id));
+          alert("삭제되었습니다.");
+          location.reload();
+        }
+      }
+    });
+
     document.querySelectorAll(".ch").forEach(btn => {
       btn.addEventListener("click", () => {
         const filter = btn.getAttribute("data-filter");
@@ -269,3 +257,4 @@
   </script>
 </body>
 </html>
+
