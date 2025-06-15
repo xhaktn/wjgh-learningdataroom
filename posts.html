@@ -31,9 +31,6 @@
       text-decoration: none;
       color: black;
     }
-    .nav a:hover {
-      font-weight: bold;
-    }
     .login {
       background-color: #fce4ec;
       padding: 5px 15px;
@@ -51,15 +48,14 @@
       margin: 20px;
       border-radius: 10px;
       border: 2px solid #f9aebe;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
     .nav-bar a {
       text-decoration: none;
       color: black;
       padding: 10px 0;
       border-right: 1px solid #d999aa;
-      text-align: center;
       flex: 1;
+      text-align: center;
     }
     .nav-bar a:last-child {
       border-right: none;
@@ -82,7 +78,6 @@
     .post_text {
       font-size: 24px;
       font-weight: bold;
-      white-space: nowrap;
     }
     .search-group {
       display: flex;
@@ -96,7 +91,6 @@
       background-color: #ffffff;
       border-radius: 5px 0 0 5px;
       flex: 1;
-      box-sizing: border-box;
     }
     .search-button {
       background-color: #ffffff;
@@ -127,7 +121,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: background-color 0.2s;
     }
     .post:hover {
       background-color: #fff3f5;
@@ -155,12 +148,12 @@
       cursor: pointer;
       font-size: 15px;
       background-color: #FFDDE3;
-      text-decoration: none;
-      color: black;
       padding: 3px 20px;
       border-right: 1px solid #d999aa;
-      text-align: center;
       flex: 1;
+      text-align: center;
+      text-decoration: none;
+      color: black;
     }
     .ch:hover {
       background-color: #f08ca0;
@@ -192,9 +185,9 @@
       <div class="search-bar">
         <div class="post_text">게시글 보기</div>
         <div class="cate">
-          <a href="#" class="ch">1학년</a>
-          <a href="#" class="ch">2학년</a>
-          <a href="#" class="ch">3학년</a>
+          <button class="ch" data-filter="1학년">1학년</button>
+          <button class="ch" data-filter="2학년">2학년</button>
+          <button class="ch" data-filter="3학년">3학년</button>
         </div>
         <div class="search-group">
           <input type="text" class="search-input" placeholder="검색할 내용 입력">
@@ -202,12 +195,11 @@
         </div>
       </div>
       <div class="post-list">
-       
+        <!-- 게시글 출력 -->
       </div>
     </div>
   </div>
 
- 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
     import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
@@ -225,31 +217,55 @@
     const db = getFirestore(app);
 
     const postList = document.querySelector(".post-list");
-    postList.innerHTML = "";
+    let allPosts = [];
 
-    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-    const querySnapshot = await getDocs(q);
+    async function fetchPosts() {
+      const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+      const querySnapshot = await getDocs(q);
+      allPosts = [];
 
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      const title = data.title || "제목 없음";
-      const nickname = data.nickname || "익명";
-      const grade = data.grade || "학년 미입력";
-      const date = data.createdAt?.toDate().toLocaleDateString("ko-KR") || "날짜 없음";
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        allPosts.push({
+          id: doc.id,
+          title: data.title || "제목 없음",
+          nickname: data.nickname || "익명",
+          grade: data.grade || "학년 미입력",
+          date: data.createdAt?.toDate().toLocaleDateString("ko-KR") || "날짜 없음"
+        });
+      });
 
-      const postElement = document.createElement("div");
-      postElement.className = "post";
-      postElement.innerHTML = `
-        <a href="view-post.html?id=${doc.id}">
-          <div>
-            <div class="post-title">${title}</div>
-            <div class="post-info">${nickname} ｜ ${grade}</div>
-          </div>
-          <div class="post-info">${date}</div>
-        </a>
-      `;
-      postList.appendChild(postElement);
+      renderPosts(allPosts);
+    }
+
+    function renderPosts(posts) {
+      postList.innerHTML = "";
+      posts.forEach((post) => {
+        const div = document.createElement("div");
+        div.className = "post";
+        div.innerHTML = `
+          <a href="view-post.html?id=${post.id}">
+            <div>
+              <div class="post-title">${post.title}</div>
+              <div class="post-info">${post.nickname} ｜ ${post.grade}</div>
+            </div>
+            <div class="post-info">${post.date}</div>
+          </a>
+        `;
+        postList.appendChild(div);
+      });
+    }
+
+    // 학년 필터
+    document.querySelectorAll(".ch").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const filter = btn.getAttribute("data-filter");
+        const filtered = allPosts.filter(p => p.grade === filter);
+        renderPosts(filtered);
+      });
     });
+
+    fetchPosts();
   </script>
 </body>
 </html>
