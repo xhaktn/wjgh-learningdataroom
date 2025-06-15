@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게시글 상세보기 - 원주여자고등학교</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #fff0f3;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .meta {
+      font-size: 14px;
+      color: gray;
+      margin-bottom: 20px;
+    }
+    .content {
+      font-size: 16px;
+      white-space: pre-line;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 8px 16px;
+      background-color: #f9aebe;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+    .back-btn:hover {
+      background-color: #f08ca0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title" id="post-title">제목 불러오는 중...</div>
+    <div class="meta" id="post-meta">작성자 | 학년 | 작성일</div>
+    <div class="content" id="post-content">내용 불러오는 중...</div>
+    <a href="posts.html" class="back-btn">← 게시글 목록으로</a>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCrxJuOjHGdttC2gfwfjqsvAjHicEav6BA",
+      authDomain: "wjgh-learningdataroom.firebaseapp.com",
+      projectId: "wjgh-learningdataroom",
+      storageBucket: "wjgh-learningdataroom.firebasestorage.app",
+      messagingSenderId: "284248567704",
+      appId: "1:284248567704:web:88e70e08666e13ff80c5ed"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const params = new URLSearchParams(location.search);
+    const postId = params.get("id");
+
+    if (!postId) {
+      document.getElementById("post-title").textContent = "글 ID가 없습니다.";
+      document.getElementById("post-content").textContent = "";
+    } else {
+      const postRef = doc(db, "posts", postId);
+      const postSnap = await getDoc(postRef);
+
+      if (postSnap.exists()) {
+        const data = postSnap.data();
+        document.getElementById("post-title").textContent = data.title || "제목 없음";
+        const date = data.createdAt?.toDate().toLocaleDateString("ko-KR") || "날짜 없음";
+        document.getElementById("post-meta").textContent = `${data.nickname || "익명"} ｜ ${data.grade || "학년 없음"}학년 ｜ ${date}`;
+        document.getElementById("post-content").textContent = data.content || "";
+      } else {
+        document.getElementById("post-title").textContent = "해당 게시글을 찾을 수 없습니다.";
+        document.getElementById("post-content").textContent = "";
+      }
+    }
+  </script>
+</body>
+</html>
