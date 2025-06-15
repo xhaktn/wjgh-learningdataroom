@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게시글 보기 - 원주여자고등학교</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #fff0f3;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      border-bottom: 2px solid black;
+    }
+    .header h1 {
+      font-size: 18px;
+      margin: 0;
+    }
+    .nav-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+    .nav {
+      display: flex;
+      gap: 80px;
+      font-size: 14px;
+    }
+    .nav a {
+      text-decoration: none;
+      color: black;
+    }
+    .nav a:hover {
+      font-weight: bold;
+    }
+    .login {
+      background-color: #fce4ec;
+      padding: 5px 15px;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .nav-bar {
+      background-color: #ffcbd6;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 48px;
+      font-size: 14px;
+      margin: 20px;
+      border-radius: 10px;
+      border: 2px solid #f9aebe;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .nav-bar a {
+      text-decoration: none;
+      color: black;
+      padding: 5px 15px;
+      border-right: 1px solid #d999aa;
+    }
+    .nav-bar a:last-child {
+      border-right: none;
+    }
+    .nav-bar a.active {
+      font-weight: bold;
+      background-color: #f9aebe;
+      border-radius: 10px;
+    }
+    .main {
+      padding: 30px;
+    }
+    .main h2 {
+      font-size: 24px;
+      color: #5b3b3b;
+    }
+   .search-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  gap: 10px;
+}
+
+.post_text {
+  font-size: 24px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.search-group {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  max-width: 400px;
+}
+
+.search-input {
+  padding: 8px;
+  border: none;
+  background-color: #ffffff;
+  border-radius: 5px 0 0 5px;
+  flex: 1;
+  min-width: 100px;
+  max-width: 300px;
+  box-sizing: border-box;
+}
+
+.search-button {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  padding: 8px;
+  cursor: pointer;
+}
+
+    .post-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .post {
+      background-color: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+    }
+    .post-title {
+      font-weight: bold;
+    }
+    .post-info {
+      font-size: 12px;
+      color: gray;
+      text-align: right;
+    }
+
+    .square{
+        background-color: #FFDDE3;
+        padding:20px;
+        border-radius: 20px;
+        }
+
+    .wjg{
+           text-decoration: none;
+      color: black;
+      padding: 10px 20px;
+    }    
+    
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a href="index.html" class="wjg"><b>원주여자고등학교</b><a>
+    <div class="nav-container">
+      <div class="nav">
+        <a href="posts.html">게시판</a>
+        <a href="#">공지사항</a>
+        <a href="inquiry.html">문의하기</a>
+      </div>
+    </div>
+    <a href="login.html">로그인</a></div>
+  </div>
+
+  <div class="nav-bar">
+    <a href="posts.html" class="active">게시글 보기</a>
+    <a href="my-posts.html"  >내 게시글 보기</a>
+    <a href="categories.html" >카테고리</a>
+    <a href="write-post.html">게시물 작성</a>
+  </div>
+
+  <div class="main">
+    
+    <div class="square">
+        
+    <div class="search-bar">
+  <div class="post_text">게시글 보기</div>
+  <div class="search-group">
+    <input type="text" class="search-input" placeholder="검색할 내용 입력">
+    <button class="search-button">🔍</button>
+  </div>
+</div>
+
+    <div class="post-list">
+      <div class="post">
+        <div>
+          <div class="post-title">입력한 제목</div>
+          <div class="post-info">닉네임</div>
+        </div>
+        <div class="post-info">작성일 202X.XX.XX</div>
+      </div>
+      <div class="post">
+        <div>
+          <div class="post-title">입력한 제목</div>
+          <div class="post-info">닉네임</div>
+        </div>
+        <div class="post-info">작성일 202X.XX.XX</div>
+      </div>
+      <div class="post">
+        <div>
+          <div class="post-title">입력한 제목</div>
+          <div class="post-info">닉네임</div>
+        </div>
+        <div class="post-info">작성일 202X.XX.XX</div>
+      </div>
+      <div class="post">
+        <div>
+          <div class="post-title">입력한 제목</div>
+          <div class="post-info">닉네임</div>
+        </div>
+        <div class="post-info">작성일 202X.XX.XX</div>
+      </div>
+    </div>
+  </div>
+  </div>
+</body>
+</html>
