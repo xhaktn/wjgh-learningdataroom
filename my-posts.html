@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta name="viewport" content="width=1024">
   <title>내 게시글 보기 - 원주여자고등학교</title>
   <style>
     body {
@@ -57,12 +57,14 @@
       border: 2px solid #f9aebe;
       box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
-    .nav-bar a {
-      text-decoration: none;
-      color: black;
-      padding: 5px 15px;
-      border-right: 1px solid #d999aa;
-    }
+   .nav-bar a {
+  text-decoration: none;
+  color: black;
+  padding: 10px 0;
+  border-right: 1px solid #d999aa;
+  text-align: center;
+  flex: 1; /* 너비 균등 분배 */
+}
     .nav-bar a:last-child {
       border-right: none;
     }
@@ -124,13 +126,12 @@
         <a href="inquiry.html">문의하기</a>
       </div>
     </div>
-    <a href="login.html">로그인</a></div>
+    <div class="login">로그인</div>
   </div>
 
   <div class="nav-bar">
     <a href="posts.html">게시글 보기</a>
     <a href="my-posts.html" class="active">내 게시글 보기</a>
-    <a href="categories.html">카테고리</a>
     <a href="write-post.html">게시물 작성</a>
   </div>
 
