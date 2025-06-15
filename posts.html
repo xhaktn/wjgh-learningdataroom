@@ -151,7 +151,41 @@
       color: black;
       padding: 10px 20px;
     }    
-    
+    .cate {
+  display: flex;
+  gap: 10px;
+  
+}
+
+.ch {
+ 
+  border: none;
+ 
+  cursor: pointer;
+  font-size: 15px;
+  color: rgb(0, 0, 0);
+  background-color: #FFDDE3;
+
+ text-decoration: none;
+  color: black;
+  padding: 3px 20px;
+  border-right: 1px solid #d999aa;
+  text-align: center;
+  flex: 1; /* 너비 균등 분배 */
+}
+
+ .nav-bar a {
+  text-decoration: none;
+  color: black;
+  padding: 10px 0;
+  border-right: 1px solid #d999aa;
+  text-align: center;
+  flex: 1; /* 너비 균등 분배 */
+}
+.ch:hover {
+  background-color: #f08ca0;
+  border-radius: 20px;
+}
   </style>
 </head>
 <body>
@@ -164,13 +198,13 @@
         <a href="inquiry.html">문의하기</a>
       </div>
     </div>
-    <a href="login.html">로그인</a></div>
+    <div class="login">로그인</div>
   </div>
 
   <div class="nav-bar">
     <a href="posts.html" class="active">게시글 보기</a>
     <a href="my-posts.html"  >내 게시글 보기</a>
-    <a href="categories.html" >카테고리</a>
+    
     <a href="write-post.html">게시물 작성</a>
   </div>
 
@@ -180,6 +214,11 @@
         
     <div class="search-bar">
   <div class="post_text">게시글 보기</div>
+  <div class="cate">
+    <a  href="" class="ch">1학년</a>
+    <a  href="" class="ch">2학년</a>
+    <a  href="" class="ch">3학년</a>
+  </div>
   <div class="search-group">
     <input type="text" class="search-input" placeholder="검색할 내용 입력">
     <button class="search-button">🔍</button>
