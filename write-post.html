@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=1024">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1024" />
   <title>게시글 작성 - 원주여자고등학교</title>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
@@ -48,7 +48,7 @@
 
       alert("게시글이 작성되었습니다!");
       window.location.href = "posts.html";
-    }
+    };
   </script>
   <style>
     body {
@@ -62,10 +62,6 @@
       align-items: center;
       padding: 10px 20px;
       border-bottom: 2px solid black;
-    }
-    .header h1 {
-      font-size: 18px;
-      margin: 0;
     }
     .nav-container {
       flex: 1;
@@ -90,12 +86,6 @@
       border-radius: 10px;
       font-size: 14px;
       cursor: pointer;
-    .login {
-      background-color: #fce4ec;
-      padding: 5px 15px;
-      border-radius: 10px;
-      font-size: 14px;
-      cursor: pointer;
     }
     .nav-bar {
       background-color: #ffcbd6;
@@ -109,14 +99,12 @@
       border: 2px solid #f9aebe;
       box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
-   .nav-bar a {
-  text-decoration: none;
-  color: black;
-  padding: 10px 0;
-  border-right: 1px solid #d999aa;
-  text-align: center;
-  flex: 1; /* 너비 균등 분배 */
-}
+    .nav-bar a {
+      text-decoration: none;
+      color: black;
+      padding: 5px 15px;
+      border-right: 1px solid #d999aa;
+    }
     .nav-bar a:last-child {
       border-right: none;
     }
@@ -166,16 +154,16 @@
     .submit-button:hover {
       background-color: #f08ca0;
     }
-    .square{
+    .square {
       background-color: #FFDDE3;
-      padding:20px;
+      padding: 20px;
       border-radius: 20px;
     }
-    .wjg{
+    .wjg {
       text-decoration: none;
       color: black;
       padding: 10px 20px;
-    }    
+    }
     .post-header {
       display: flex;
       justify-content: space-between;
@@ -192,7 +180,7 @@
     <div class="nav-container">
       <div class="nav">
         <a href="posts.html">게시판</a>
-           <a href="notice.html">공지사항</a>
+        <a href="notice.html">공지사항</a>
         <a href="inquiry.html">문의하기</a>
       </div>
     </div>
@@ -218,8 +206,17 @@
           <option value="2학년">2학년</option>
           <option value="3학년">3학년</option>
         </select>
-        <input type="text" id="title" placeholder="제목을 입력하세요">
+        <input type="text" id="title" placeholder="제목을 입력하세요" />
         <textarea id="content" placeholder="내용을 입력하세요"></textarea>
+
+        
+        <div style="font-size: 13px; color: gray; line-height: 1.6;">
+          🔗 <b>첨부파일을 올리려면?</b><br />
+          Google Drive, Dropbox 등에 파일을 업로드한 뒤,<br />
+          해당 <b>공유 링크</b>를 글 내용에 붙여주세요.<br />
+          예: https://drive.google.com/file/d/abc123/view
+        </div>
+
         <button class="submit-button" onclick="submitPost()">작성 완료</button>
       </div>
     </div>
