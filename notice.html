@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=1024">
   <title>공지사항 - 원주여자고등학교</title>
-  <meta name="viewport" content="width=1024">
   <style>
     body {
         margin: 0;
@@ -24,16 +23,24 @@
             font-size: 18px;
              margin: 0;
         }
-        .nav-container {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-        }
-    .nav {
-      display: flex;
-      gap: 80px;
-      font-size: 14px;
-    }
+       .nav-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  min-width: 300px; /* 최소 너비 */
+  max-width: 1024px; /* 최대 너비 */
+  margin: 0 auto; /* 가운데 정렬 */
+}
+
+.nav {
+  display: flex;
+  gap: 40px; /* 메뉴 사이 간격 */
+  font-size: 14px;
+  width: 100%; /* 부모 너비에 딱 맞게 */
+  max-width: 400px; /* 최대 너비 제한 */
+  justify-content: space-between; /* 균등 분배 */
+  box-sizing: border-box;
+}
     .nav a {
       text-decoration: none;
       color: black;
@@ -151,7 +158,7 @@
                 <a href="inquiry.html">문의하기</a>
             </div>
         </div>
-        <div class="login"><a href="iogin.html">로그인</a></div>
+        <div class="login">로그인</div>
     </div>
 
     <div class="main">
@@ -172,6 +179,7 @@
     <button>적용</button>
   </div>
 
+  
   <div class="table-container">
     <table>
   <thead>
@@ -187,7 +195,7 @@
       <td>001</td>
       <td class="title-left bold">공지사항 기능은 추후 제공 예정입니다. 그동안은 원여고 인스타를 참고해주세요.</td>
       <td>학습상담부</td>
-      <td>2025.06.16</td>
+      <td>2025.05.25</td>
     </tr>
     <!-- 여기에 다른 공지 추가 가능 -->
   </tbody>
@@ -217,6 +225,36 @@
     }
   });
 </script>
+
+<script type="module">
+  document.addEventListener("DOMContentLoaded", () => {
+    // localStorage에서 로그인 사용자 정보 가져오기
+    const userStr = localStorage.getItem("user");
+    const loginDiv = document.querySelector(".login");
+
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      loginDiv.textContent = `${user.name}님 환영합니다`;
+      loginDiv.style.fontWeight = "bold";
+      loginDiv.style.cursor = "default";
+
+      // 로그아웃 기능 추가 (원하면)
+      loginDiv.addEventListener("click", () => {
+        if (confirm("로그아웃 하시겠습니까?")) {
+          localStorage.removeItem("user");
+          location.reload();  // 페이지 새로고침
+        }
+      });
+    } else {
+      // 로그인 안된 경우 클릭 시 로그인 페이지로 이동
+      loginDiv.textContent = "로그인";
+      loginDiv.style.cursor = "pointer";
+      loginDiv.addEventListener("click", () => {
+        location.href = "login.html";
+      });
+    }
+  });
+  </script>
 
 </body>
 </html>
