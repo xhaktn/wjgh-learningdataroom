@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
  <meta name="viewport" content="width=1024">
   <title>내 게시글 보기 - 원주여자고등학교</title>
-  <meta name="viewport" content="width=1024">
+ 
   <style>
-    body {
+     body {
       margin: 0;
       font-family: 'Noto Sans KR', sans-serif;
       background-color: #fff0f3;
@@ -104,7 +104,7 @@
       text-align: right;
     }
 
-   .square{
+     .square{
         background-color: #FFDDE3;
         padding:20px;
         border-radius: 20px;
@@ -127,7 +127,7 @@
         <a href="inquiry.html">문의하기</a>
       </div>
     </div>
-    <div class="login"><a href="login.html">로그인</a></div>
+    <div class="login">로그인</div>
   </div>
 
   <div class="nav-bar">
@@ -142,14 +142,14 @@
     <div class="post-list">
       <div class="post">
         <div>
-          <div class="post-title">나의 게시물 기능을 추후 추가 예정입니다.</div>
+          <div class="post-title">나의 첫 번째 글</div>
           <div class="post-info">닉네임</div>
         </div>
         <div class="post-info">202X.XX.XX</div>
       </div>
       <div class="post">
         <div>
-          <div class="post-title">감사합니다.</div>
+          <div class="post-title">수학 공부 팁 공유</div>
           <div class="post-info">닉네임</div>
         </div>
         <div class="post-info">202X.XX.XX</div>
@@ -157,5 +157,34 @@
     </div>
   </div>
   </div>
+  <script type="module">
+  document.addEventListener("DOMContentLoaded", () => {
+    // localStorage에서 로그인 사용자 정보 가져오기
+    const userStr = localStorage.getItem("user");
+    const loginDiv = document.querySelector(".login");
+
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      loginDiv.textContent = `${user.name}님 환영합니다`;
+      loginDiv.style.fontWeight = "bold";
+      loginDiv.style.cursor = "default";
+
+      // 로그아웃 기능 추가 (원하면)
+      loginDiv.addEventListener("click", () => {
+        if (confirm("로그아웃 하시겠습니까?")) {
+          localStorage.removeItem("user");
+          location.reload();  // 페이지 새로고침
+        }
+      });
+    } else {
+      // 로그인 안된 경우 클릭 시 로그인 페이지로 이동
+      loginDiv.textContent = "로그인";
+      loginDiv.style.cursor = "pointer";
+      loginDiv.addEventListener("click", () => {
+        location.href = "login.html";
+      });
+    }
+  });
+  </script>
 </body>
 </html>
