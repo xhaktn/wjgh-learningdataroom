@@ -2,17 +2,18 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=1024" />
   <title>게시글 보기 - 원주여자고등학교</title>
-  <meta name="viewport" content="width=1024">
   <style>
     body {
       margin: 0;
       font-family: 'Noto Sans KR', sans-serif;
       background-color: #fff0f3;
     }
-    .header {
+    .header, .nav-bar, .main, .square, .post, .search-bar, .cate {
       display: flex;
+    }
+    .header {
       justify-content: space-between;
       align-items: center;
       padding: 10px 20px;
@@ -20,7 +21,6 @@
     }
     .nav-container {
       flex: 1;
-      display: flex;
       justify-content: center;
     }
     .nav {
@@ -28,7 +28,7 @@
       gap: 80px;
       font-size: 14px;
     }
-    .nav a {
+    .nav a, .wjg {
       text-decoration: none;
       color: black;
     }
@@ -41,9 +41,7 @@
     }
     .nav-bar {
       background-color: #ffcbd6;
-      display: flex;
       justify-content: space-around;
-      align-items: center;
       height: 48px;
       font-size: 14px;
       margin: 20px;
@@ -51,16 +49,12 @@
       border: 2px solid #f9aebe;
     }
     .nav-bar a {
-      text-decoration: none;
-      color: black;
       padding: 10px 0;
       border-right: 1px solid #d999aa;
       flex: 1;
       text-align: center;
     }
-    .nav-bar a:last-child {
-      border-right: none;
-    }
+    .nav-bar a:last-child { border-right: none; }
     .nav-bar a.active {
       font-weight: bold;
       background-color: #f9aebe;
@@ -68,37 +62,28 @@
     }
     .main {
       padding: 30px;
+      flex-direction: column;
     }
-    
     .post_text {
       font-size: 24px;
       font-weight: bold;
     }
-    
     .square {
+      flex-direction: column;
       background-color: #FFDDE3;
       padding: 20px;
       border-radius: 20px;
     }
     .post-list {
-      display: flex;
       flex-direction: column;
       gap: 15px;
-    }
-    .post a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .post a:visited {
-      color: inherit;
+      display: flex;
     }
     .post {
       background-color: white;
       padding: 15px;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      display: flex;
       justify-content: space-between;
       align-items: center;
     }
@@ -114,14 +99,9 @@
       color: gray;
       text-align: right;
     }
-    .wjg {
-      text-decoration: none;
-      color: black;
-      padding: 10px 20px;
-    }
     .cate {
-      display: flex;
       gap: 10px;
+      margin-top: 10px;
     }
     .ch {
       border: none;
@@ -132,12 +112,36 @@
       border-right: 1px solid #d999aa;
       flex: 1;
       text-align: center;
-      text-decoration: none;
       color: black;
     }
     .ch:hover {
       background-color: #f08ca0;
       border-radius: 20px;
+    }
+    .search-group {
+      display: flex;
+      justify-content: flex-end;
+      max-width: 400px;
+      margin-left: auto;
+    }
+    .search-input {
+      padding: 8px;
+      border: none;
+      background-color: #ffffff;
+      border-radius: 5px 0 0 5px;
+      flex: 1;
+    }
+    .search-button {
+      background-color: #ffffff;
+      border: none;
+      border-radius: 0 5px 5px 0;
+      padding: 8px;
+      cursor: pointer;
+    }
+    .delete-btn {
+      margin-left: 10px;
+      cursor: pointer;
+      color: red;
     }
   </style>
 </head>
@@ -169,11 +173,12 @@
           <button class="ch" data-filter="2학년">2학년</button>
           <button class="ch" data-filter="3학년">3학년</button>
         </div>
-        
+        <div class="search-group">
+          <input type="text" id="searchInput" class="search-input" placeholder="검색할 내용 입력">
+          <button class="search-button" onclick="handleSearch()">🔍</button>
+        </div>
       </div>
-      <div class="post-list">
-        <!-- 게시글 출력 -->
-      </div>
+      <div class="post-list"></div>
     </div>
   </div>
 
@@ -192,17 +197,15 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-
-    const postList = document.querySelector(".post-list");
     const user = JSON.parse(localStorage.getItem("user"));
+    const postList = document.querySelector(".post-list");
     let allPosts = [];
 
     async function fetchPosts() {
       const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-      const querySnapshot = await getDocs(q);
+      const snapshot = await getDocs(q);
       allPosts = [];
-
-      querySnapshot.forEach((docSnap) => {
+      snapshot.forEach((docSnap) => {
         const data = docSnap.data();
         allPosts.push({
           id: docSnap.id,
@@ -212,13 +215,12 @@
           date: data.createdAt?.toDate().toLocaleDateString("ko-KR") || "날짜 없음"
         });
       });
-
       renderPosts(allPosts);
     }
 
     function renderPosts(posts) {
       postList.innerHTML = "";
-      posts.forEach((post) => {
+      posts.forEach(post => {
         const div = document.createElement("div");
         div.className = "post";
         div.innerHTML = `
@@ -235,6 +237,22 @@
       });
     }
 
+    function handleSearch() {
+      const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+      const filtered = allPosts.filter(p =>
+        p.title.toLowerCase().includes(keyword) || p.nickname.toLowerCase().includes(keyword)
+      );
+      renderPosts(filtered);
+    }
+
+    document.querySelectorAll(".ch").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const filter = btn.getAttribute("data-filter");
+        const filtered = allPosts.filter(p => p.grade === filter);
+        renderPosts(filtered);
+      });
+    });
+
     document.addEventListener("click", async (e) => {
       if (e.target.classList.contains("delete-btn")) {
         const id = e.target.getAttribute("data-id");
@@ -246,16 +264,7 @@
       }
     });
 
-    document.querySelectorAll(".ch").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const filter = btn.getAttribute("data-filter");
-        const filtered = allPosts.filter(p => p.grade === filter);
-        renderPosts(filtered);
-      });
-    });
-
     fetchPosts();
   </script>
 </body>
 </html>
-
