@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=1024" />
+  <meta charset="UTF-8">
+ <meta name="viewport" content="width=1024">
   <title>게시글 작성 - 원주여자고등학교</title>
-  <meta name="viewport" content="width=1024">
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
     import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
@@ -49,8 +48,8 @@
 
       alert("게시글이 작성되었습니다!");
       window.location.href = "posts.html";
-    };
-  </script>
+    }
+  </script>  
   <style>
     body {
       margin: 0;
@@ -63,6 +62,10 @@
       align-items: center;
       padding: 10px 20px;
       border-bottom: 2px solid black;
+    }
+    .header h1 {
+      font-size: 18px;
+      margin: 0;
     }
     .nav-container {
       flex: 1;
@@ -130,7 +133,7 @@
       flex-direction: column;
       gap: 20px;
     }
-    input[type="text"], textarea, select {
+    input[type="text"], textarea {
       padding: 10px;
       font-size: 16px;
       border: 1px solid #ccc;
@@ -155,27 +158,67 @@
     .submit-button:hover {
       background-color: #f08ca0;
     }
-    .square {
-      background-color: #FFDDE3;
-      padding: 20px;
-      border-radius: 20px;
-    }
-    .wjg {
-      text-decoration: none;
+
+    .square{
+        background-color: #FFDDE3;
+        padding:20px;
+        
+        border-radius: 20px;
+        }
+        
+    .wjg{
+           text-decoration: none;
       color: black;
-      padding: 10px 20px;
-    }
-    .post-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
+       padding: 10px 20px;
+    }    
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* 좁은 화면 대응 */
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.cate {
+  display: flex;
+  gap: 10px;
+  
+}
+
+.ch {
+ 
+  border: none;
+ 
+  cursor: pointer;
+  font-size: 15px;
+  color: rgb(0, 0, 0);
+  background-color: #FFDDE3;
+ text-decoration: none;
+  color: black;
+  padding: 3px 20px;
+  border-right: 1px solid #d999aa;
+  text-align: center;
+  flex: 1; /* 너비 균등 분배 */
+}
+
+ .nav-bar a {
+  text-decoration: none;
+  color: black;
+  padding: 10px 0;
+  border-right: 1px solid #d999aa;
+  text-align: center;
+  flex: 1; /* 너비 균등 분배 */
+}
+
+.ch:hover {
+  background-color: #f08ca0;
+  border-radius: 20px;
+}
+
   </style>
 </head>
-<body>
+<body style=" overflow:none">
   <div class="header">
     <a href="index.html" class="wjg"><b>원주여자고등학교</b></a>
     <div class="nav-container">
@@ -194,11 +237,11 @@
     <a href="write-post.html" class="active">게시물 작성</a>
   </div>
 
-  <div class="main">
+  <div class="main" >
     <div class="square">
       <div class="post-header">
         <h2>게시글 작성</h2>
-      </div>
+      </div >
 
       <div class="form-container">
         <select id="grade">
@@ -222,5 +265,35 @@
       </div>
     </div>
   </div>
+
+  <script type="module">
+  document.addEventListener("DOMContentLoaded", () => {
+    // localStorage에서 로그인 사용자 정보 가져오기
+    const userStr = localStorage.getItem("user");
+    const loginDiv = document.querySelector(".login");
+
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      loginDiv.textContent = `${user.name}님 환영합니다`;
+      loginDiv.style.fontWeight = "bold";
+      loginDiv.style.cursor = "default";
+
+      // 로그아웃 기능 추가 (원하면)
+      loginDiv.addEventListener("click", () => {
+        if (confirm("로그아웃 하시겠습니까?")) {
+          localStorage.removeItem("user");
+          location.reload();  // 페이지 새로고침
+        }
+      });
+    } else {
+      // 로그인 안된 경우 클릭 시 로그인 페이지로 이동
+      loginDiv.textContent = "로그인";
+      loginDiv.style.cursor = "pointer";
+      loginDiv.addEventListener("click", () => {
+        location.href = "login.html";
+      });
+    }
+  });
+  </script>
 </body>
 </html>
