@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=1024">
 
   <title>문의하기 - 원주여자고등학교</title>
-  <meta name="viewport" content="width=1024">
   <style>
-    body {
+         body {
       margin: 0;
       font-family: 'Noto Sans KR', sans-serif;
       background-color: #fff0f3;
@@ -21,6 +20,7 @@
     }
     .header h1 {
       font-size: 18px;
+      margin: 0;
     }
     .nav-container {
       flex: 1;
@@ -43,12 +43,37 @@
       background-color: #fce4ec;
       padding: 5px 15px;
       border-radius: 10px;
-      cursor: pointer;
       font-size: 14px;
+      cursor: pointer;
+    }
+    .nav-bar {
+      background-color: #ffcbd6;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 48px;
+      font-size: 14px;
+      margin: 20px;
+      border-radius: 10px;
+      border: 2px solid #f9aebe;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    
+    .nav-bar a:last-child {
+      border-right: none;
+    }
+    .nav-bar a.active {
+      font-weight: bold;
+      background-color: #f9aebe;
+      border-radius: 10px;
     }
     .main {
-      background-color: #fff0f3;
-      padding: 40px 20px;
+      padding: 30px;
+    }
+    .main h2 {
+      font-size: 24px;
+      color: #5b3b3b;
     }
     .title-box {
       background-color: #ffdce5;
@@ -96,7 +121,7 @@
         <a href="inquiry.html">문의하기</a>
       </div>
     </div>
-    <div class="login"><a href="login.html">로그인</a></div>
+    <div class="login">로그인</div>
   </div>
 
   <div class="main">
@@ -114,5 +139,35 @@
       
     </div>
   </div>
+
+  <script type="module">
+  document.addEventListener("DOMContentLoaded", () => {
+    // localStorage에서 로그인 사용자 정보 가져오기
+    const userStr = localStorage.getItem("user");
+    const loginDiv = document.querySelector(".login");
+
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      loginDiv.textContent = `${user.name}님 환영합니다`;
+      loginDiv.style.fontWeight = "bold";
+      loginDiv.style.cursor = "default";
+
+      // 로그아웃 기능 추가 (원하면)
+      loginDiv.addEventListener("click", () => {
+        if (confirm("로그아웃 하시겠습니까?")) {
+          localStorage.removeItem("user");
+          location.reload();  // 페이지 새로고침
+        }
+      });
+    } else {
+      // 로그인 안된 경우 클릭 시 로그인 페이지로 이동
+      loginDiv.textContent = "로그인";
+      loginDiv.style.cursor = "pointer";
+      loginDiv.addEventListener("click", () => {
+        location.href = "login.html";
+      });
+    }
+  });
+  </script>
 </body>
 </html>
